@@ -11,7 +11,7 @@ type ExoplanetService struct {
 
 type Repository interface {
 	Add(exoplanet *domain.Exoplanet) error
-	List() ([]*domain.Exoplanet, error)
+	List(so string, asc bool) ([]*domain.Exoplanet, error)
 	GetByID(id string) (*domain.Exoplanet, error)
 	Update(exoplanet *domain.Exoplanet) error
 	Delete(id string) error
@@ -30,8 +30,8 @@ func (s *ExoplanetService) AddExoplanet(name, description string, distance int, 
 	return exoplanet, err
 }
 
-func (s *ExoplanetService) ListExoplanets() ([]*domain.Exoplanet, error) {
-	return s.repo.List()
+func (s *ExoplanetService) ListExoplanets(so string, asc bool) ([]*domain.Exoplanet, error) {
+	return s.repo.List(so, asc)
 }
 
 func (s *ExoplanetService) GetExoplanetByID(id string) (*domain.Exoplanet, error) {

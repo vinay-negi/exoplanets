@@ -45,7 +45,13 @@ func (h *Handler) AddExoplanet(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *Handler) ListExoplanets(w http.ResponseWriter, r *http.Request) {
-	exoplanets, err := h.service.ListExoplanets()
+	sortBy := r.URL.Query().Get("sortBy")
+	ascStr := r.URL.Query().Get("order")
+	asc := false
+	if ascStr == "asc" {
+		asc = true
+	}
+	exoplanets, err := h.service.ListExoplanets(sortBy, asc)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

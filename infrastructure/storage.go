@@ -2,6 +2,7 @@ package infrastructure
 
 import (
 	"errors"
+	"sort"
 	"sync"
 
 	"github.com/vinay-negi/exoplanets/domain"
@@ -23,12 +24,34 @@ func (r *MemoryRepository) Add(exoplanet *domain.Exoplanet) error {
 	return nil
 }
 
-func (r *MemoryRepository) List() ([]*domain.Exoplanet, error) {
+func (r *MemoryRepository) List(sortBy string, asc bool) ([]*domain.Exoplanet, error) {
 	r.mu.RLock()
 	defer r.mu.RUnlock()
 	exoplanets := make([]*domain.Exoplanet, 0, len(r.data))
 	for _, exoplanet := range r.data {
 		exoplanets = append(exoplanets, exoplanet)
+	}
+	switch sortBy {
+	case "radius":
+		sort.Slice(exoplanets, func(i, j int) bool {
+			if asc {
+				return exoplanets[i].Radius < exoplanets[j].Radius
+			}
+			return exoplanets[i].Radius > exoplanets[j].Radius
+		})
+	case "mass":
+		sort.Slice(exoplanets, func(i, j int) bool {
+			if exoplanets[i].Mass == nil {
+				return false
+			}
+			if exoplanets[j].Mass == nil {
+				return true
+			}
+			if asc {
+				return *exoplanets[i].Mass < *exoplanets[j].Mass
+			}
+			return *exoplanets[i].Mass > *exoplanets[j].Mass
+		})
 	}
 	return exoplanets, nil
 }
