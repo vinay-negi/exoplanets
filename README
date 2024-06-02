@@ -38,16 +38,23 @@ where:
 
 ## Running the Service in container
 
-1. Build the Docker image:
+1. Clone the repository:
+
+    ```sh
+    git clone https://github.com/vinay-negi/exoplanets.git
+    cd exoplanet-service
+    git checkout master
+    ```
+2. Build the Docker image:
     ```
     docker build -t exoplanet-service .
     ```
-2. Run the Docker container:
+3. Run the Docker container:
     ```
     docker run -p 8080:8080 exoplanet-service
     ```
 
-3. The service will be available at `http://localhost:8080`.
+4. The service will be available at `http://localhost:8080/exoplanets`.
 
 
 ## Running the Service locally
@@ -55,17 +62,18 @@ where:
 1. Clone the repository:
 
     ```sh
-    git clone https://github.com/your-repo/exoplanet-service.git
+    git clone https://github.com/vinay-negi/exoplanets.git
     cd exoplanet-service
+    git checkout master
     ```
 
 2. Run the application:
 
     ```sh
-    go run cmd/main.go
+    go run main.go
     ```
 
-3. Access the API at `http://localhost:8080`.
+3. Access the API at `http://localhost:8080/exoplanets`.
 
 
 ## Dependencies
